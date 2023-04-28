@@ -4,7 +4,32 @@ export class TodoItem extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: block;
+        display: flex;
+        align-items: center;
+        padding: 6px 12px;
+      }
+      .iconWrapper {
+        border: 1px solid rgba(191, 86, 255, .79);
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        text-align: center;
+        background: linear-gradient(-45deg, #E600FA, rgba(82, 97, 234, 0))
+      }
+      .iconWrapper:hover {
+        cursor: pointer;
+      }
+      
+      todo-icon {
+        margin-top: 3px;
+        font-size: 18px;
+        color: #FFF;
+      }
+      .titleWrapper {
+        color: rgba(255, 255, 255, .7);
+        padding-left: 12px;
+        font-size: 16px;
+        max-width: 80%;
       }
     `;
   }
@@ -25,15 +50,15 @@ export class TodoItem extends LitElement {
   }
 
   render() {
-    let icon = html`<todo-icon icon="radio_button_unchecked" @click=${this._toogleCompletion}></todo-icon>`;
+    let icon = html`<todo-icon icon=""></todo-icon>`;
     console.log(this.isComplete)
     if(this.isComplete) {
-      icon = html`<todo-icon icon="check_circle" @click=${this._toogleCompletion}></todo-icon>`;
+      icon = html`<todo-icon icon="check"></todo-icon>`;
     }
 
     return html`
-      ${icon}
-      ${this.title}
+      <div class="iconWrapper" @click=${this._toogleCompletion}>${icon}</div>
+      <div class="titleWrapper">${this.title}</div>
     `;
   }
 

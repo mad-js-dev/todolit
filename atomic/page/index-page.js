@@ -1,6 +1,14 @@
-import {LitElement, html} from 'lit';
+import {LitElement, html, css} from 'lit';
 
 export class indexPage extends LitElement {
+
+  static get styles() {
+    return css`
+    :host div {
+      background-color: #181824;
+    }
+    `;
+  }
 
   static get properties() {
     return {
@@ -11,24 +19,41 @@ export class indexPage extends LitElement {
   constructor() {
     super();
     this.todoItems = [
-      {id: 0, title: "meh", isComplete: true}
     ]
   }
 
   render() {
     return html`
       <div>
-        <sidecolumn-template>
-          <todo-component slot="leftColumn" listItems="${this.todoItems}" @onTodoChange=${this._updateData}></todo-component>
-          <p slot="rightColumn">Right col</p>
-        </sidecolumn-template>
+        <centerblock-template>
+          <todo-component slot="content" .listItems="${this.todoItems}" @onTodoChange=${this._updateData}></todo-component>
+        </centerblock-template>
       </div>
-      
     `;
   }
 
   _updateData(e) {
-    this.todoItems = e.detail
+    
+    if(e.detail.action === "create") {
+      console.log(e)
+      this.todoItems.unshift( e.detail.data);
+      
+    } else if(e.detail.action === "update") {
+      this.listItems.map((item, index) => {
+        if(item.id == e.detail.id) {
+          this.listItems[index] = e.detail
+        }
+      })
+    }  else if(e.detail.action === "delete") {
+      let newList = []
+      this.todoItems.map(item => {
+        if(!item.isComplete) { 
+          newList.push(item)
+        }
+      })
+      this.todoItems = newList;
+      this.requestUpdate(); //Trigger re-render manually due to changes inside array
+    }
   }
 }
 

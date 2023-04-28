@@ -6,6 +6,31 @@ export class TodoInput extends LitElement {
     return css`
       :host {
         display: block;
+        overflow: hidden;
+        border-radius: 24px;
+      }
+      :host > div {
+        background-color: #25273C;
+        display: flex;
+      }
+      input {
+        border: none;
+        background-color: #25273C;
+        flex-grow: 1;
+        width: 100%;
+        color: rgba(255, 255, 255, .7);
+        padding-left: 12px;
+      }
+      .buttonWrapper {
+        flex-grow: 1;
+      }
+      button {
+        border: none;
+        background-color: rgba(90, 255, 49, .6);
+        color: rgba(255, 255, 255, .7);
+      }
+      button:hover {
+        cursor: pointer;
       }
     `;
   }
@@ -23,10 +48,14 @@ export class TodoInput extends LitElement {
 
   render() {
     return html`
-      <input type="text" value="${this.value}" @change=${this._onChange}/>
-      <button @click=${this._onClick} part="button">
-        <todo-icon icon="add"></todo-icon>
-      </button>
+    <div>
+      <input type="text" placeholder="Create a new todo..." value="${this.value}" @change=${this._onChange}/>
+      <div class="buttonWrapper">
+        <button @click=${this._onClick} part="button">
+          <todo-icon icon="add"></todo-icon>
+        </button>
+      </div>
+    </div>
     `;
   }
 
